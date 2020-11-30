@@ -1,0 +1,9 @@
+{
+  "name": "haraka-plugin-rcpt-dynamo",
+  "version": "0.1.0",
+  "description": "A Haraka plugin that checks if recipients are in a dynamo table.",
+  "main": "index.js",
+  "repository": "git@github.com:mfogel/haraka-plugin-rcpt-dynamo.git",
+  "author": "Mike Fogel <mike@fogel.ca>",
+  "license": "MIT"
+}
