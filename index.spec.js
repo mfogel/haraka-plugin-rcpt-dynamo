@@ -85,10 +85,10 @@ describe('rcpt()', () => {
     params = [{address: () => address}]
   })
 
-  it('returns immediately if the connection has no transaction', () => {
+  it('returns without doing anything if the connection has no transaction', async () => {
     const thisMock = {client: new DynamoDBClient()}
     const {transaction, ...connectionNoTxn} = connection
-    expect(rcpt.call(thisMock, next, connectionNoTxn, params)).toBeUndefined()
+    await rcpt.call(thisMock, next, connectionNoTxn, params)
     expect(next).not.toHaveBeenCalled()
     expect(connection.logdebug).not.toHaveBeenCalled()
     expect(thisMock.client.send).not.toHaveBeenCalled()
