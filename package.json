@@ -6,6 +6,9 @@
   "repository": "git@github.com:mfogel/haraka-plugin-rcpt-dynamo.git",
   "author": "Mike Fogel <mike@fogel.ca>",
   "license": "MIT",
+  "files": [
+    "index.js"
+  ],
   "scripts": {
     "lint": "eslint '**/*.js'",
     "test": "jest"
