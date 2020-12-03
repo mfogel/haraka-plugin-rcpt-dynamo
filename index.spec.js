@@ -28,7 +28,7 @@ describe('register()', () => {
     expect(thisMock.register_hook).not.toHaveBeenCalled()
   })
 
-  it('sets rcpt-dynamo.table-name and rcpt-dynamo.hash-key-name to config object', () => {
+  it('sets rcpt-dynamo.table-name and rcpt-dynamo.hash-key-name to plugin object', () => {
     const tableName = getRandomString()
     const hashKeyName = getRandomString()
     const thisMock = getThisMock({
@@ -77,16 +77,21 @@ describe('rcpt()', () => {
       },
     },
   }
-  let address = null
-  let params = null
+  let address
+  let params
+  let thisMock
 
   beforeEach(() => {
     address = getRandomString()
     params = [{address: () => address}]
+    thisMock = {
+      client: new DynamoDBClient(),
+      tableName: getRandomString(),
+      hashKeyName: getRandomString(),
+    }
   })
 
   it('returns without doing anything if the connection has no transaction', async () => {
-    const thisMock = {client: new DynamoDBClient()}
     const {transaction, ...connectionNoTxn} = connection
     await rcpt.call(thisMock, next, connectionNoTxn, params)
     expect(next).not.toHaveBeenCalled()
@@ -96,12 +101,9 @@ describe('rcpt()', () => {
 
   it('sends the correct query to dynamo', async () => {
     // configure
-    const thisMock = {client: new DynamoDBClient()}
     const cmd = {}
     GetItemCommand.mockReturnValue(cmd)
     thisMock.client.send.mockResolvedValue({})
-    thisMock.tableName = getRandomString()
-    thisMock.hashKeyName = getRandomString()
     // execute
     await rcpt.call(thisMock, next, connection, params)
     // verify
@@ -119,7 +121,6 @@ describe('rcpt()', () => {
   it('accepts an address found in dynamo', async () => {
     // configure
     global.OK = {}
-    const thisMock = {client: new DynamoDBClient()}
     thisMock.client.send.mockResolvedValue({Item: true})
     // execute
     await rcpt.call(thisMock, next, connection, params)
@@ -138,7 +139,6 @@ describe('rcpt()', () => {
 
   it('rejects an address not found in dynamo', async () => {
     // configure
-    const thisMock = {client: new DynamoDBClient()}
     thisMock.client.send.mockResolvedValue({})
     // execute
     await rcpt.call(thisMock, next, connection, params)
@@ -157,7 +157,6 @@ describe('rcpt()', () => {
 
   it('rejects address and records error if dynamo throws an error', async () => {
     // configure
-    const thisMock = {client: new DynamoDBClient()}
     const err = new Error(getRandomString())
     thisMock.client.send.mockRejectedValue(err)
     // execute
