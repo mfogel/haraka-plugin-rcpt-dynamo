@@ -11,9 +11,7 @@ exports.register = function () {
 }
 
 exports.rcpt = async function (next, connection, params) {
-  // Not sure why we need to do this check, but seems the default plugins do it so we will too
-  // https://github.com/haraka/Haraka/blob/v2.8.19/plugins/rcpt_to.in_host_list.js#L22-L23
-  // https://github.com/haraka/haraka-plugin-rcpt-ldap/blob/7f51384aa/index.js#L33-L34
+  // Cache the transaction to avoid issues if the SMTP session gets dropped
   const txn = connection.transaction
   if (!txn) return
 
@@ -31,7 +29,7 @@ exports.rcpt = async function (next, connection, params) {
     Item = await this.client.send(cmd).then(({Item}) => Item)
   } catch (err) {
     connection.logerror(this, `Rejecting rctp '${address}', dynamo query error: '${err}'`)
-    txn.results.add(this, {err: err})
+    txn.results.add(this, {err})
     return next()
   }
 

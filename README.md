@@ -1,7 +1,7 @@
 # haraka-plugin-rcpt-dynamo
 
 [![build](https://github.com/mfogel/haraka-plugin-rcpt-dynamo/workflows/build/badge.svg)](https://github.com/mfogel/haraka-plugin-rcpt-dynamo/actions?query=workflow%3Abuild)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 [![npm](https://img.shields.io/npm/v/haraka-plugin-rcpt-dynamo.svg)](https://www.npmjs.com/package/haraka-plugin-rcpt-dynamo)
 
 A [Haraka](https://github.com/haraka/Haraka) plugin that checks if recipients are in a dynamo table.
