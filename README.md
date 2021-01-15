@@ -22,6 +22,10 @@ AWS Credentials are assumed to be provided out-of-band (ie. via environment vari
 
 ## Changelog
 
+### v0.1.1
+
+- upgrade to GA release of AWS sdk
+
 ### v0.1
 
 - initial release
